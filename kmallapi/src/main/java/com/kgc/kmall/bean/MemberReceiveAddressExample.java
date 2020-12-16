@@ -1,4 +1,4 @@
-package com.kgc.kmall.user.bean;
+package com.kgc.kmall.bean;
 
 import java.util.ArrayList;
 import java.util.List;

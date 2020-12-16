@@ -1,4 +1,4 @@
-package com.kgc.kmall.user.bean;
+package com.kgc.kmall.bean;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
