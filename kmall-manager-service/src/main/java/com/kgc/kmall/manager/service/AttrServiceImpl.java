@@ -33,8 +33,26 @@ public class AttrServiceImpl implements AttrService{
 
     @Override
     public Integer add(PmsBaseAttrInfo attrInfo) {
-        int i = pmsBaseAttrInfoMapper.insertSelective(attrInfo);
-        return i;
+        try {
+            //判断添加还是修改 id是否为null
+            if(attrInfo.getId()==null){
+                //添加，添加属性，(返回自增的id)
+                pmsBaseAttrInfoMapper.insert(attrInfo);
+            }else{
+                //修改，修改属性
+                pmsBaseAttrInfoMapper.updateByPrimaryKeySelective(attrInfo);
+                //删除原属性值
+                PmsBaseAttrValueExample example=new PmsBaseAttrValueExample();
+                example.createCriteria().andAttrIdEqualTo(attrInfo.getId());
+                PmsBaseAttrValueMapper.deleteByExample(example);
+            }
+            //批量添加属性值（属性id，list<属性值>）
+            PmsBaseAttrValueMapper.insertBatch(attrInfo.getId(),attrInfo.getAttrValueList());
+            return 1;
+        }catch (Exception e){
+            e.printStackTrace();
+            return -1;
+        }
     }
 
     @Override

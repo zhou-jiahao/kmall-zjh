@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kgc.kmall.manager.mapper.PmsBaseAttrValueMapper" >
+
+  <insert id="insertBatch">
+    INSERT INTO pms_base_attr_value (value_name,attr_id) VALUES
+    <foreach collection="valueList" item="v" separator=",">
+      (#{v.valueName},#{attrId})
+    </foreach>
+  </insert>
+
   <resultMap id="BaseResultMap" type="com.kgc.kmall.bean.PmsBaseAttrValue" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="value_name" property="valueName" jdbcType="VARCHAR" />
@@ -98,13 +106,13 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.kgc.kmall.bean.PmsBaseAttrValue" >
+  <insert id="insert" parameterType="com.kgc.kmall.bean.PmsBaseAttrValue" keyProperty="id" useGeneratedKeys="true" >
     insert into pms_base_attr_value (id, value_name, attr_id, 
       is_enabled)
     values (#{id,jdbcType=BIGINT}, #{valueName,jdbcType=VARCHAR}, #{attrId,jdbcType=BIGINT}, 
       #{isEnabled,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.kgc.kmall.bean.PmsBaseAttrValue" >
+  <insert id="insertSelective" parameterType="com.kgc.kmall.bean.PmsBaseAttrValue" keyProperty="id" useGeneratedKeys="true" >
     insert into pms_base_attr_value
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
