@@ -98,13 +98,13 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.kgc.kmall.bean.PmsProductImage" >
+  <insert id="insert" parameterType="com.kgc.kmall.bean.PmsProductImage" useGeneratedKeys="true" keyProperty="id">
     insert into pms_product_image (id, product_id, img_name, 
       img_url)
     values (#{id,jdbcType=BIGINT}, #{productId,jdbcType=BIGINT}, #{imgName,jdbcType=VARCHAR}, 
       #{imgUrl,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.kgc.kmall.bean.PmsProductImage" >
+  <insert id="insertSelective" parameterType="com.kgc.kmall.bean.PmsProductImage" useGeneratedKeys="true" keyProperty="id">
     insert into pms_product_image
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
