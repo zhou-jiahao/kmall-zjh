@@ -18,7 +18,7 @@ public class SkuController {
     SkuService skuService;
 
     @ApiOperation("添加了Sku")
-    @PostMapping("/saveSkuInfo")
+    @RequestMapping("/saveSkuInfo")
     public String saveSkuInfo(@RequestBody PmsSkuInfo skuInfo){
         String result = skuService.saveSkuInfo(skuInfo);
         return result;
