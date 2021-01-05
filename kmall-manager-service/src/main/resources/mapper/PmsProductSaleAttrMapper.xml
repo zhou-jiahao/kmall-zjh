@@ -24,12 +24,9 @@
 
   <select id="spuSaleAttrListIsCheck" resultMap="selectSpuSaleAttrListCheckBySkuMap">
       SELECT psav.*,IF(pssav.sku_id,1,0) AS isChecked
-FROM(SELECT * FROM view_sal_attr_value WHERE product_id=#{spuId}) AS psav
-LEFT JOIN(SELECT * FROM pms_sku_sale_attr_value WHERE sku_id=#{skuId}) AS pssav
-ON psav.sale_attr_value_id=pssav.sale_attr_value_id
-
-
-
+      FROM(SELECT * FROM view_sal_attr_value WHERE product_id=#{spuId}) AS psav
+      LEFT JOIN(SELECT * FROM pms_sku_sale_attr_value WHERE sku_id=#{skuId}) AS pssav
+      ON psav.sale_attr_value_id=pssav.sale_attr_value_id
   </select>
 
 

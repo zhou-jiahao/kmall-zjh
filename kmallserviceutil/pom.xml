@@ -19,6 +19,25 @@
   <url>http://www.example.com</url>
 
   <dependencies>
+    <!-- es的java客户端 -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.searchbox</groupId>
+      <artifactId>jest</artifactId>
+      <version>5.3.4</version>
+    </dependency>
+    <dependency>
+      <groupId>org.redisson</groupId>
+      <artifactId>redisson</artifactId>
+      <version>3.10.5</version>
+    </dependency>
+    <dependency>
+      <groupId>redis.clients</groupId>
+      <artifactId>jedis</artifactId>
+    </dependency>
     <dependency>
       <groupId>com.kgc.kmall</groupId>
       <artifactId>kmall-common-util</artifactId>
