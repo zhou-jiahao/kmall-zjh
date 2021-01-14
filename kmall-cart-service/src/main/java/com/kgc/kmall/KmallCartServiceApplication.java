@@ -1,15 +1,15 @@
-package com.kgc.kmall.user;
+package com.kgc.kmall;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@MapperScan("com.kgc.kmall.user.mapper")
+@MapperScan(basePackages = "com.kgc.kmall.cart.mapper")
 @SpringBootApplication
-public class KmallUserServiceApplication {
+public class KmallCartServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(KmallUserServiceApplication.class, args);
+		SpringApplication.run(KmallCartServiceApplication.class, args);
 	}
 
 }

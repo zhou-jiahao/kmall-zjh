@@ -1,4 +1,4 @@
-package com.kgc.kmall.config;
+package com.kgc.kmall.manager.config;
 
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestClientFactory;
@@ -8,6 +8,10 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class JedisConfig {
+
+    //@Value("${spring.elasticsearch.rest.uris}")
+
+
     @Bean
     public JestClient getJestCline() {
         JestClientFactory factory = new JestClientFactory();

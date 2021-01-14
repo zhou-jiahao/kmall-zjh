@@ -155,10 +155,11 @@ public class SkuServiceImpl implements SkuService {
     public List<PmsSkuInfo> getAllSku() {
         List<PmsSkuInfo> pmsSkuInfos = pmsSkuInfoMapper.selectByExample(null);
         for (PmsSkuInfo pmsSkuInfo : pmsSkuInfos) {
-            PmsSkuSaleAttrValueExample example=new PmsSkuSaleAttrValueExample();
-            PmsSkuSaleAttrValueExample.Criteria criteria = example.createCriteria();
-            criteria.andSkuIdEqualTo(pmsSkuInfo.getId());
+            PmsSkuAttrValueExample example=new PmsSkuAttrValueExample();
+            example.createCriteria().andSkuIdEqualTo(pmsSkuInfo.getId());
+            List<PmsSkuAttrValue> pmsSkuAttrValues = pmsSkuAttrValueMapper.selectByExample(example);
+            pmsSkuInfo.setSkuAttrValueList(pmsSkuAttrValues);
         }
-        return null;
+        return pmsSkuInfos;
     }
 }
