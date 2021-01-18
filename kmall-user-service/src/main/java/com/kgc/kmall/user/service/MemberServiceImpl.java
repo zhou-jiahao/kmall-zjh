@@ -4,8 +4,11 @@ package com.kgc.kmall.user.service;
 import com.alibaba.fastjson.JSON;
 import com.kgc.kmall.bean.Member;
 import com.kgc.kmall.bean.MemberExample;
+import com.kgc.kmall.bean.MemberReceiveAddress;
+import com.kgc.kmall.bean.MemberReceiveAddressExample;
 import com.kgc.kmall.service.MemberService;
 import com.kgc.kmall.user.mapper.MemberMapper;
+import com.kgc.kmall.user.mapper.MemberReceiveAddressMapper;
 import com.kgc.kmall.util.RedisUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Service;
@@ -83,5 +86,39 @@ public class MemberServiceImpl implements MemberService {
         jedis.setex("user:"+id+":token",60*60*2,token);
         //关闭jedis
         jedis.close();
+    }
+
+    @Override
+    public Member checkOauthUser(Long sourceUid) {
+        Member member=null;
+        MemberExample example = new MemberExample();
+        MemberExample.Criteria criteria = example.createCriteria();
+        criteria.andSourceUidEqualTo(sourceUid);
+        List<Member> members = memberMapper.selectByExample(example);
+        if (members != null && members.size() > 0) {
+             member=members.get(0);
+        }
+        return member;
+    }
+
+    @Override
+    public void addOauthUser(Member umsMember) {
+        memberMapper.insertSelective(umsMember);
+    }
+
+    @Resource
+    MemberReceiveAddressMapper memberReceiveAddressMapper;
+
+    @Override
+    public List<MemberReceiveAddress> getReceiveAddressByMemberId(Long aLong) {
+        MemberReceiveAddressExample example=new MemberReceiveAddressExample();
+        example.createCriteria().andMemberIdEqualTo(aLong);
+        List<MemberReceiveAddress> memberReceiveAddresses = memberReceiveAddressMapper.selectByExample(example);
+        return memberReceiveAddresses;
+    }
+
+    @Override
+    public MemberReceiveAddress getReceiveAddressById(long l) {
+        return memberReceiveAddressMapper.selectByPrimaryKey(l);
     }
 }

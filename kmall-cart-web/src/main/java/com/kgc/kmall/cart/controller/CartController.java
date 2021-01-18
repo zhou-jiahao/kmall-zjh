@@ -28,6 +28,7 @@ public class CartController {
     @Reference
     CartService cartService;
 
+    @LoginRequired(value = false)
     @RequestMapping("/addToCart")
     public String addToCart(long skuId, Integer num, HttpServletRequest request, HttpServletResponse response){
         List<OmsCartItem> omsCartItems = new ArrayList<>();
@@ -51,7 +52,10 @@ public class CartController {
 
 
         // 判断用户是否登录
-        String memberId ="2";
+        String memberId ="";
+        if(request.getAttribute("memberId")!=null){
+            memberId=request.getAttribute("memberId").toString();
+        }
 
         if(StringUtils.isBlank(memberId)){
             //cookie里原有的购物车数据
@@ -125,12 +129,16 @@ public class CartController {
 
 
     //显示购物车数据
+    @LoginRequired(false)
     @RequestMapping("/cartList")
     public String cartList(ModelMap modelMap, HttpServletRequest request){
         //声明一个购物车集合
         List<OmsCartItem> omsCartItems = new ArrayList<>();
         //判断是否登陆
-        String memberId = "2";
+        String memberId = "";
+        if(request.getAttribute("memberId")!=null){
+            memberId=request.getAttribute("memberId").toString();
+        }
 
         if(StringUtils.isNotBlank(memberId)){
             // 已经登录查询db
@@ -150,11 +158,16 @@ public class CartController {
         return "cartList";
     }
 
+    @LoginRequired(false)
     @RequestMapping("/checkCart")
     @ResponseBody
     public Map<String,Object> checkCart(Integer isChecked,Long skuId,HttpServletRequest request,HttpServletResponse response){
         Map<String,Object> map=new HashMap<>();
-        String memberId = "2";
+        String memberId = "";
+        if(request.getAttribute("memberId")!=null){
+            memberId=request.getAttribute("memberId").toString();
+        }
+
         if (StringUtils.isNotBlank(memberId)){
             // 调用服务，修改状态
             OmsCartItem omsCartItem = new OmsCartItem();
@@ -211,6 +224,7 @@ public class CartController {
         return total;
     }
 
+    @LoginRequired(true)
     @RequestMapping("toTrade")
     public String toTrade() {
 

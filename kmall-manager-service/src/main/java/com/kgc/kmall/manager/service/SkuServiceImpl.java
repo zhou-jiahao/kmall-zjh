@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -161,5 +162,20 @@ public class SkuServiceImpl implements SkuService {
             pmsSkuInfo.setSkuAttrValueList(pmsSkuAttrValues);
         }
         return pmsSkuInfos;
+    }
+
+    //校验价格
+    @Override
+    public boolean checkPrice(Long productSkuId, BigDecimal price) {
+        boolean b = false;
+        //查询sku信息
+        PmsSkuInfo pmsSkuInfo = pmsSkuInfoMapper.selectByPrimaryKey(productSkuId);
+        //将购物车的单品价格转换为BigDecimal类型
+        BigDecimal PmsSkuInfoPrice=new BigDecimal(pmsSkuInfo.getPrice());
+        //如果购物车价格和商品价格相同 返回true
+        if(price.compareTo(PmsSkuInfoPrice)==0){
+            b=true;
+        }
+        return b;
     }
 }

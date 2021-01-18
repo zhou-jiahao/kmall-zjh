@@ -83,11 +83,18 @@ public class CartServiceImpl implements CartService {
         try {
             jedis = redisUtil.getJedis();
             List<String> hvals = jedis.hvals("user:" + memberId + ":cart");
-            for (String hval : hvals) {
-                OmsCartItem omsCartItem = JSON.parseObject(hval, OmsCartItem.class);
-                omsCartItems.add(omsCartItem);
+            if(hvals!=null && hvals.size()>0){
+                for (String hval : hvals) {
+                    OmsCartItem omsCartItem = JSON.parseObject(hval, OmsCartItem.class);
+                    omsCartItems.add(omsCartItem);
+                }
+            }else{
+                OmsCartItemExample example = new OmsCartItemExample();
+                OmsCartItemExample.Criteria criteria = example.createCriteria();
+                criteria.andMemberIdEqualTo(Long.valueOf(memberId));
+                omsCartItems = omsCartItemMapper.selectByExample(example);
+                flushCartCache(memberId);
             }
-            flushCartCache(memberId);
         }catch (Exception e){
             // 处理异常，记录系统日志
             e.printStackTrace();
